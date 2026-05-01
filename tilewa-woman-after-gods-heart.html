@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Woman After God's Heart — Tilewa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&family=Dancing+Script:wght@500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --night:    #08060f;
+  --deep:     #110d20;
+  --void:     #0d0b18;
+  --gold:     #c9a84c;
+  --gold-lt:  #e8cc80;
+  --gold-dim: #8a6e2f;
+  --ivory:    #f5eedb;
+  --ivory-dim:#c4b896;
+  --rose:     #c97070;
+  --rose-dim: #7a3d3d;
+  --text:     #e8dfc8;
+  --muted:    #9a8f7a;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--night);
+  color: var(--text);
+  font-family: 'IM Fell English', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ── GOLD SHIMMER ── */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.gold-text {
+  background: linear-gradient(90deg, var(--gold-dim) 0%, var(--gold) 40%, var(--gold-lt) 60%, var(--gold) 80%, var(--gold-dim) 100%);
+  background-size: 400px 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── ORNAMENTAL BORDER ── */
+.border-frame {
+  position: relative;
+  border: 0.5px solid var(--gold-dim);
+  padding: 3rem;
+}
+.border-frame::before,
+.border-frame::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 0.5px solid rgba(201,168,76,0.2);
+  pointer-events: none;
+}
+.border-frame::after {
+  inset: 12px;
+  border-color: rgba(201,168,76,0.08);
+}
+
+/* corner ornaments */
+.corner { position: absolute; width: 22px; height: 22px; }
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: -1px; left: -1px; }
+.corner-tr { top: -1px; right: -1px; transform: scaleX(-1); }
+.corner-bl { bottom: -1px; left: -1px; transform: scaleY(-1); }
+.corner-br { bottom: -1px; right: -1px; transform: scale(-1,-1); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem 4rem;
+  position: relative;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse at 30% 80%, rgba(201,112,112,0.06) 0%, transparent 55%),
+    var(--deep);
+}
+
+.hero-pre {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.5em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 0.4s forwards;
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 6vw, 4.2rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 0.8s forwards;
+}
+
+.hero-name {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(3.5rem, 11vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+  display: block;
+  margin: 0.5rem 0 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 1.2s forwards;
+}
+
+.hero-verse {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ivory-dim);
+  max-width: 520px;
+  opacity: 0;
+  animation: fadeUp 1.2s ease 1.6s forwards;
+  line-height: 1.9;
+}
+
+.hero-verse cite {
+  display: block;
+  font-style: normal;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  margin-top: 0.8rem;
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  animation: fadeIn 1.5s ease 2.5s forwards;
+}
+.scroll-down span {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.4em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+}
+.scroll-down::after {
+  content: '';
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  animation: scrollDrop 2.5s ease-in-out infinite;
+}
+@keyframes scrollDrop {
+  0%, 100% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+  50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+}
+
+/* ── GENERAL SECTION ── */
+.section {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.45em;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.3;
+  margin-bottom: 3rem;
+}
+
+/* ── DIVIDER ── */
+.divine-divider {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 1rem 0 3.5rem;
+  color: var(--gold-dim);
+}
+.divine-divider::before,
+.divine-divider::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+}
+.divine-divider span {
+  font-size: 1.1rem;
+  color: var(--gold);
+}
+
+/* ── OPENING POEM ── */
+.opening-poem {
+  text-align: center;
+  padding: 6rem 2rem;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%),
+    var(--void);
+  position: relative;
+}
+
+.poem-stanza {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  color: var(--ivory);
+  line-height: 2.2;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.poem-stanza.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.poem-stanza strong {
+  font-weight: 400;
+  color: var(--gold);
+  font-style: normal;
+}
+
+/* ── SCRIPTURE BANNER ── */
+.scripture-banner {
+  padding: 5rem 2rem;
+  text-align: center;
+  position: relative;
+  background: linear-gradient(to right, transparent, rgba(201,168,76,0.06), transparent);
+}
+
+.scripture-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+  color: var(--ivory);
+  line-height: 2;
+  max-width: 640px;
+  margin: 0 auto 1.2rem;
+}
+
+.scripture-ref {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+}
+
+/* ── PHOTO GALLERY ── */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto;
+  gap: 12px;
+  padding: 2rem 2rem 5rem;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.photo-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--deep);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.photo-frame.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.photo-frame:nth-child(1) { grid-column: 1 / 8; grid-row: 1; }
+.photo-frame:nth-child(2) { grid-column: 8 / 13; grid-row: 1; }
+.photo-frame:nth-child(3) { grid-column: 1 / 5; grid-row: 2; }
+.photo-frame:nth-child(4) { grid-column: 5 / 13; grid-row: 2; }
+
+.photo-inner {
+  width: 100%;
+  padding-top: 120%;
+  position: relative;
+  background: #1a1428;
+  display: block;
+  overflow: hidden;
+}
+
+.photo-frame:nth-child(1) .photo-inner { padding-top: 70%; }
+.photo-frame:nth-child(2) .photo-inner { padding-top: 130%; }
+.photo-frame:nth-child(3) .photo-inner { padding-top: 130%; }
+.photo-frame:nth-child(4) .photo-inner { padding-top: 75%; }
+
+.photo-inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(15%) contrast(1.05) brightness(0.92);
+  transition: transform 0.6s ease;
+}
+.photo-frame:hover .photo-inner img {
+  transform: scale(1.04);
+}
+
+.photo-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--gold-dim);
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 1rem;
+  border: 0.5px dashed rgba(201,168,76,0.25);
+}
+.photo-placeholder svg {
+  width: 28px;
+  height: 28px;
+  opacity: 0.4;
+}
+
+.photo-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 2.5rem 1.2rem 1.2rem;
+  background: linear-gradient(to top, rgba(8,6,15,0.85), transparent);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1rem;
+  color: var(--gold-lt);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.photo-frame:hover .photo-overlay { opacity: 1; }
+
+/* ── BRAG BOARD ── */
+.brag-section {
+  padding: 5rem 2rem 6rem;
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(201,112,112,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.07) 0%, transparent 55%),
+    var(--void);
+}
+
+.brag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.brag-card {
+  border: 0.5px solid rgba(201,168,76,0.2);
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255,255,255,0.02);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.brag-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.brag-card:hover {
+  border-color: rgba(201,168,76,0.5);
+  background: rgba(201,168,76,0.04);
+}
+.brag-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 2px;
+  height: 0;
+  background: var(--gold);
+  transition: height 0.4s ease;
+}
+.brag-card:hover::before { height: 100%; }
+
+.brag-number {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-dim);
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+.brag-title {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.2rem;
+  color: var(--gold-lt);
+  margin-bottom: 0.5rem;
+}
+
+.brag-body {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.8;
+}
+
+/* ── SCRIPTURE WALL ── */
+.scripture-wall {
+  padding: 6rem 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.verse-block {
+  margin-bottom: 5rem;
+  padding-left: 2rem;
+  border-left: 1.5px solid var(--gold-dim);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.verse-block.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.verse-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--ivory);
+  line-height: 2;
+  margin-bottom: 0.8rem;
+}
+
+.verse-ref {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+}
+
+.verse-reflection {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+  font-style: italic;
+  max-width: 500px;
+  line-height: 1.9;
+}
+
+/* ── CLOSING BLESSING ── */
+.blessing {
+  padding: 7rem 2rem 5rem;
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.1) 0%, transparent 60%),
+    var(--deep);
+  position: relative;
+}
+
+.blessing-text {
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  color: var(--ivory);
+  line-height: 2.2;
+  max-width: 620px;
+  margin: 0 auto 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.blessing-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.blessing-text strong {
+  font-weight: 400;
+  color: var(--gold);
+  font-style: normal;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 4rem 2rem 5rem;
+  text-align: center;
+  border-top: 0.5px solid rgba(201,168,76,0.15);
+}
+
+.footer-name {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.footer-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.45em;
+  color: var(--gold-dim);
+}
+
+.heart-row {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.heart-row span {
+  font-size: 1rem;
+  color: var(--rose);
+  animation: heartbeat 2.5s ease-in-out infinite;
+}
+.heart-row span:nth-child(2) { animation-delay: 0.4s; color: var(--gold); }
+.heart-row span:nth-child(3) { animation-delay: 0.8s; color: var(--rose); }
+
+@keyframes heartbeat {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .gallery {
+    grid-template-columns: 1fr 1fr;
+    padding: 1rem 1rem 3rem;
+  }
+  .photo-frame:nth-child(1),
+  .photo-frame:nth-child(2),
+  .photo-frame:nth-child(3),
+  .photo-frame:nth-child(4) {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .photo-inner,
+  .photo-frame:nth-child(1) .photo-inner,
+  .photo-frame:nth-child(2) .photo-inner,
+  .photo-frame:nth-child(3) .photo-inner,
+  .photo-frame:nth-child(4) .photo-inner {
+    padding-top: 110%;
+  }
+  .border-frame { padding: 1.5rem; }
+  .brag-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="hero">
+  <p class="hero-pre">a tribute · a celebration · a prayer</p>
+
+  <h1 class="hero-title">
+    <span class="gold-text">A Woman After God's Heart</span>
+  </h1>
+
+  <span class="hero-name gold-text">Tilewa</span>
+
+  <p class="hero-verse">
+    "She is clothed with strength and dignity; she can laugh at the days to come."
+    <cite>Proverbs 31 : 25</cite>
+  </p>
+
+  <div class="scroll-down"><span>behold her</span></div>
+</section>
+
+
+<!-- ═══════════════════ OPENING POEM ═══════════════════ -->
+<section class="opening-poem">
+  <div class="section" style="padding-top:0; padding-bottom:0;">
+    <span class="label reveal" style="text-align:center; display:block; margin-bottom:2rem;">a poem for her</span>
+  </div>
+
+  <p class="poem-stanza">
+    Before the world knew her name,<br>
+    <strong>God already loved her.</strong>
+  </p>
+
+  <p class="poem-stanza" style="transition-delay:0.2s;">
+    He knit her together in secret places —<br>
+    her laugh, her eyes, her fire,<br>
+    her stubborn tender heart.<br>
+    <strong>Every thread deliberate. Every detail divine.</strong>
+  </p>
+
+  <p class="poem-stanza" style="transition-delay:0.4s;">
+    And today, on this day He set apart for her,<br>
+    the whole of heaven looks down<br>
+    and <strong>smiles at what He made.</strong>
+  </p>
+
+  <p class="poem-stanza" style="transition-delay:0.6s;">
+    She is not an accident of this earth.<br>
+    She is an answer to a prayer<br>
+    someone, somewhere, prayed without words —<br>
+    and <strong>God, in His goodness, said: Tilewa.</strong>
+  </p>
+</section>
+
+
+<!-- ═══════════════════ SCRIPTURE — FEARFULLY MADE ═══════════════════ -->
+<section class="scripture-banner reveal">
+  <p class="scripture-text">
+    "I praise you because I am fearfully and wonderfully made;<br>
+    your works are wonderful, I know that full well."
+  </p>
+  <p class="scripture-ref">Psalm 139 : 14</p>
+</section>
+
+
+<!-- ═══════════════════ PHOTOS ═══════════════════ -->
+<div style="background: var(--void); padding-top: 2rem;">
+  <div class="section" style="padding-bottom: 1rem;">
+    <span class="label">her face, her light</span>
+    <h2 class="section-title reveal">
+      <span class="gold-text">Behold, She Is Beautiful</span>
+    </h2>
+    <div class="divine-divider"><span>✦</span></div>
+    <p style="font-style:italic; color:var(--muted); font-size:0.88rem; margin-bottom: 1.5rem;" class="reveal">
+      
+    </p>
+  </div>
+
+  <div class="gallery">
+
+    <div class="photo-frame" style="transition-delay:0.05s;">
+      <div class="photo-inner">
+        <img src="image1.jpg" alt="Tilewa">
+      </div>
+      <div class="photo-overlay">Cast all your anxiety on Him, For He cares for you: 1 Peter 5:7 </div>
+    </div>
+
+    <div class="photo-frame" style="transition-delay:0.15s;">
+      <div class="photo-inner">
+        <img src="image2.jpg" alt="Tilewa">
+      </div>
+      <div class="photo-overlay">And we know that God causes everything to work together for the good of those who love God and are called according to his purpose for them.: Romans 8:28</div>
+    </div>
+
+    <div class="photo-frame" style="transition-delay:0.25s;">
+      <div class="photo-inner">
+        <img src="image3.jpg" alt="Tilewa">
+      </div>
+      <div class="photo-overlay">There are many virtuous and capable women in the world, but you surpass them all!: Proverbs 31:29</div>
+    </div>
+
+    <div class="photo-frame" style="transition-delay:0.35s;">
+      <div class="photo-inner">
+        <img src="image4.jpg" alt="Tilewa">
+      </div>
+      <div class="photo-overlay">When she speaks, her words are wise, and she gives instructions with kindness.: Proverbs 31:26</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════ SCRIPTURE — PLANS ═══════════════════ -->
+<section class="scripture-banner reveal">
+  <p class="scripture-text">
+    "For I know the plans I have for you, declares the Lord —<br>
+    plans to prosper you and not to harm you,<br>
+    plans to give you hope and a future."
+  </p>
+  <p class="scripture-ref">Jeremiah 29 : 11</p>
+</section>
+
+
+<!-- ═══════════════════ BRAG BOARD ═══════════════════ -->
+<section class="brag-section">
+  <div style="max-width:860px; margin:0 auto; padding: 0 2rem;">
+    <span class="label reveal">the brag board</span>
+    <h2 class="section-title reveal">
+      <span class="gold-text">Ever Becoming</span>
+    </h2>
+    <p class="reveal" style="font-style:italic; color:var(--muted); margin-bottom:3rem; font-size:0.95rem; max-width:560px;">
+      Ni l’or ni le monde ne te mesurent — tu es inestimable.
+    </p>
+    <div class="divine-divider"><span>✦</span></div>
+
+    <div class="brag-grid">
+
+      <div class="brag-card" style="transition-delay:0.0s;">
+        <span class="brag-number">I.</span>
+        <h3 class="brag-title">Your Faith</h3>
+        <p class="brag-body">I strongly admire your Faith, and how you so much hold unto Christ in difficult times.</p>
+      </div>
+
+      <div class="brag-card" style="transition-delay:0.1s;">
+        <span class="brag-number">II.</span>
+        <h3 class="brag-title">Your Strength</h3>
+        <p class="brag-body">I admire your resilience and the way you stand firm in your beliefs even when facing adversity.</p>
+      </div>
+
+      <div class="brag-card" style="transition-delay:0.2s;">
+        <span class="brag-number">III.</span>
+        <h3 class="brag-title">Your Kindness</h3>
+        <p class="brag-body">I admire your compassion and the way you show love to others without expecting anything in return, just like you showed to me.</p>
+      </div>
+
+      <div class="brag-card" style="transition-delay:0.3s;">
+        <span class="brag-number">IV.</span>
+        <h3 class="brag-title">Your Mind</h3>
+        <p class="brag-body">Your intelligence, your ideas, the way you think.</p>
+      </div>
+
+      <div class="brag-card" style="transition-delay:0.4s;">
+        <span class="brag-number">V.</span>
+        <h3 class="brag-title">Your Joy</h3>
+        <p class="brag-body">Your laugh, your smile, the light you carry — Jesus Light. I love how you to choose to smile every day.</p>
+      </div>
+
+      <div class="brag-card" style="transition-delay:0.5s;">
+        <span class="brag-number">VI.</span>
+        <h3 class="brag-title">Your Grace</h3>
+        <p class="brag-body">The grace and kindness you show to others.</p>
+      </div>
+
+      <div class="brag-card" style="transition-delay:0.6s;">
+        <span class="brag-number">VII.</span>
+        <h3 class="brag-title">Your Courage</h3>
+        <p class="brag-body">The bravery you show in facing challenges and standing up for what is right, knowing that Jesus is with you.</p>
+      </div>
+
+      <div class="brag-card" style="transition-delay:0.7s;">
+        <span class="brag-number">VIII.</span>
+        <h3 class="brag-title">Your Heart</h3>
+        <p class="brag-body">The depth of your compassion and the love you have for others.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════ SCRIPTURE — LOVE ═══════════════════ -->
+<section class="scripture-banner reveal">
+  <p class="scripture-text">
+    "And I am convinced that nothing can ever separate us from God’s love.<br>
+    Neither death nor life, neither angels nor demons,<br>
+    neither our fears for today nor our worries about tomorrow—<br>
+    not even the powers of hell can separate us from God’s love."
+  </p>
+  <p class="scripture-ref">Romans 8:38</p>
+</section>
+
+
+<!-- ═══════════════════ SCRIPTURE WALL ═══════════════════ -->
+<div class="scripture-wall">
+  <span class="label reveal">what God says about her</span>
+  <h2 class="section-title reveal">
+    <span class="gold-text">His Words Over Her Life</span>
+  </h2>
+  <div class="divine-divider"><span>✦</span></div>
+
+  <div class="verse-block" style="transition-delay:0s;">
+    <p class="verse-text">"She sets about her work vigorously; her arms are strong for her tasks."</p>
+    <p class="verse-ref">Proverbs 31 : 17</p>
+    <p class="verse-reflection">I admire your perseverance and willigness to serve God and serve God in the things you do.</p>
+  </div>
+
+  <div class="verse-block" style="transition-delay:0.15s;">
+    <p class="verse-text">"She is more precious than rubies; nothing you desire can compare with her."</p>
+    <p class="verse-ref">Proverbs 3 : 15</p>
+    <p class="verse-reflection">You are worth more than anything in this world. You are a light that shines the light of Christ.</p>
+  </div>
+
+  <div class="verse-block" style="transition-delay:0.3s;">
+    <p class="verse-text">"The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing."</p>
+    <p class="verse-ref">Zephaniah 3 : 17</p>
+    <p class="verse-reflection">Do not worry, instead Pray for the Lord cares for you.</p>
+  </div>
+
+  <div class="verse-block" style="transition-delay:0.45s;">
+    <p class="verse-text">"You are precious and honored in my sight, and… I love you."</p>
+    <p class="verse-ref">Isaiah 43 : 4</p>
+    <p class="verse-reflection">God sees you as precious and beloved, and His love for you is unwavering.</p>
+  </div>
+
+  <div class="verse-block" style="transition-delay:0.6s;">
+    <p class="verse-text">"Charm is deceptive, and beauty is fleeting; but a woman who fears the Lord is to be praised."</p>
+    <p class="verse-ref">Proverbs 31 : 30</p>
+    <p class="verse-reflection">I admire your fear of the Lord and the way you live out your faith in everyday situations.</p>
+  </div>
+
+  <div class="verse-block" style="transition-delay:0.75s;">
+    <p class="verse-text">"For we are God's handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do."</p>
+    <p class="verse-ref">Ephesians 2 : 10</p>
+    <p class="verse-reflection">You are fearfully and wonderfully made, created for good works that God has prepared for you.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ CLOSING BLESSING ═══════════════════ -->
+<section class="blessing">
+  <span class="label" style="display:block; text-align:center; margin-bottom:2rem;" class="reveal">a birthday blessing</span>
+
+  <p class="blessing-text">
+    May this year be the one where you finally see yourself<br>
+    the way <strong>God has always seen you</strong> —
+  </p>
+
+  <p class="blessing-text" style="transition-delay:0.2s;">
+    <strong>Chosen.</strong> Before you chose anything.<br>
+    <strong>Loved.</strong> Before you earned anything.<br>
+    <strong>Enough.</strong> Simply by being here.
+  </p>
+
+  <p class="blessing-text" style="transition-delay:0.4s;">
+    May every door He opens find you ready.<br>
+    May every hard season become your testimony.<br>
+    May His joy be your strength on the ordinary days.
+  </p>
+
+  <p class="blessing-text" style="transition-delay:0.6s;">
+    And may you never forget —<br>
+    you are the woman God called by name,<br>
+    the woman He fashioned for <strong>such a time as this.</strong>
+  </p>
+
+  <p class="blessing-text" style="transition-delay:0.8s; font-size: clamp(1rem, 2.2vw, 1.3rem);">
+    <strong>Happy Birthday, Tilewa.</strong><br>
+    Heaven is celebrating you today.
+  </p>
+</section>
+
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <span class="footer-name gold-text">Tilewa</span>
+  <p class="footer-sub">a woman after god's heart · beloved · chosen · celebrated</p>
+  <div class="heart-row">
+    <span>♥</span>
+    <span>✦</span>
+    <span>♥</span>
+  </div>
+</footer>
+
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll(
+  '.reveal, .poem-stanza, .photo-frame, .brag-card, .verse-block, .blessing-text'
+).forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
